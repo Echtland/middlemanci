@@ -1,0 +1,61 @@
+## Customize the test machine
+machine:
+
+  # timezone:
+  #   Europe/Berlin # Set the timezone
+
+  # Version of ruby to use
+  ruby:
+    version: 2.2.3
+
+  # Add some environment variables
+  environment:
+  #   CIRCLE_ENV: production
+  #   RAILS_ENV: deploy
+  #   RACK_ENV: deploy
+    NOKOGIRI_USE_SYSTEM_LIBRARIES: true
+
+general:
+  branches:
+    ignore:
+      - gh-pages
+
+# test:
+#   override:
+#     - bundle exec middleman deploy
+
+# Customize dependencies
+dependencies:
+  pre:
+    - bower install
+
+## Customize test commands
+test:
+  pre:
+    - git config user.name ${GIT_NAME}
+    - git config user.email ${GIT_EMAIL}
+  override:
+    - bundle exec htmlproof ./build --disable-external
+#   post:
+#     - bundle exec rake jasmine:ci: # add an extra test type
+#         environment:
+#           RAILS_ENV: test
+#           RACK_ENV: test
+
+# Customize deployment commands
+deployment:
+  production:
+    branch: master
+    commands:
+      - ./bin/deploy
+# deployment:
+#   staging:
+#     branch: master
+#     heroku:
+#       appname: foo-bar-123
+
+## Custom notifications
+# notify:
+#   webhooks:
+#     # A list of hashes representing hooks. Only the url field is supported.
+#     - url: https://someurl.com/hooks/circle

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -e # halt script on error
+
+# bundle exec middleman build
+bundle exec htmlproof ./build --disable-external
